@@ -101,13 +101,11 @@ var System = {
     get: get,
     has: has,
     import: function(name) {
-        return new Promise(function(resolve, reject) {
-            var normalizedName = normalizeName(name, []);
-            var mod = get(normalizedName);
-            return mod ? resolve(mod) : load(name).then(function () {
-                return get(normalizedName);
-            });
-        });
+      var normalizedName = normalizeName(name, []);
+      var mod = get(normalizedName);
+      return mod ? Promise.resolve(mod) : load(name).then(function () {
+        return get(normalizedName);
+      });
     },
     register: function(name, deps, wrapper) {
         if (Array.isArray(name)) {
